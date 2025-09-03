@@ -19,7 +19,7 @@ class BypassManager: ObservableObject {
     }
     
     func loadSettings() {
-        let settings = AppSettings.load()
+        var settings = AppSettings.load()
         settings.resetDailyCounters()
         passesUsedToday = settings.passesUsedToday
         canUseBypass = settings.canUsePass()

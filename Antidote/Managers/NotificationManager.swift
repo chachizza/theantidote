@@ -101,7 +101,7 @@ extension Notification.Name {
     static let showChallenge = Notification.Name("showChallenge")
 }
 
-extension UNUserNotificationCenter: UNUserNotificationCenterDelegate {
+extension UNUserNotificationCenter: @retroactive UNUserNotificationCenterDelegate {
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound])
     }

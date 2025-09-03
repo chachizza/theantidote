@@ -1,6 +1,6 @@
 import Foundation
 
-enum ChallengeStatus {
+enum ChallengeStatus: String, Codable {
     case notStarted
     case inProgress
     case completed
