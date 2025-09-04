@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.8;
+    margin: 0;
+    padding: 0;
+    background-color: #0A0A0A; /* Even darker background */
+    color: #E2E8F0;
+    display: flex;
+    flex-direction: column; /* Allow content to stack */
+    justify-content: center;
+    align-items: center;
+    min-height: auto; /* Allow content to scroll */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    background-image: radial-gradient(circle at top right, hsla(330, 100%, 60%, 0.15), transparent 40%), /* Hot pinkish gradient */
+                      radial-gradient(circle at bottom left, hsla(330, 100%, 60%, 0.15), transparent 50%);
+}
+
+.container {
+    max-width: 800px;
+    width: 90%; /* Make width responsive */
+    margin: 40px auto; /* Center container with auto margins */
+    padding: 40px 60px;
+    background-color: rgba(15, 15, 15, 0.8); /* Slightly lighter dark for container */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.5em;
+    letter-spacing: -1px;
+}
+
+p {
+    font-size: 1.2em;
+    color: #CBD5E1;
+    margin-bottom: 1.5em;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 40px 0;
+}
+
+a {
+    color: #FF007F; /* Hot pink for links */
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #CC0066; /* Darker hot pink on hover */
+    text-decoration: none;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.9em;
+    color: #71717A;
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #FF007F; /* Hot pink for button background */
+    color: #0A0A0A; /* Dark text for contrast */
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+    background-color: #CC0066; /* Darker hot pink on hover */
+    color: #FFFFFF; /* White text on hover */
+    transform: translateY(-2px);
+}
+
+.subtitle {
+    font-size: 1.5em;
+    color: #FF007F; /* Hot pink for subtitle */
+    margin-top: -1em; /* Adjust spacing */
+    margin-bottom: 2em;
+    font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    p {
+        font-size: 1em;
+    }
+
+    .subtitle {
+        font-size: 1.2em;
+        margin-bottom: 1.5em;
+    }
+
+    .button {
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    p {
+        font-size: 0.9em;
+    }
+
+    .subtitle {
+        font-size: 1em;
+    }
+}
