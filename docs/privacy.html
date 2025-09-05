@@ -26,7 +26,13 @@
         <p>We may update this Privacy Policy in the future. Any changes will be reflected in the updated version of the app and on this page.</p>
 
         <h2>5. Contact Us</h2>
-        <p>If you have any questions about this Privacy Policy, you can contact us at <a href="mailto:hello@theantidoteapp.com">hello@theantidoteapp.com</a>.</p>
+        <p>If you have any questions about this Privacy Policy, you can contact us at <span id="email-placeholder"></span>.</p>
+        <script>
+            var user = "hello";
+            var domain = "theantidoteapp.com";
+            var element = document.getElementById("email-placeholder");
+            element.innerHTML = '<a href="mailto:' + user + '@' + domain + '">' + user + '@' + domain + '</a>';
+        </script>
         
         <hr>
         <p><a href="index.html" class="button">Back to Home</a></p>
