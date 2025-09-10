@@ -1,81 +1,117 @@
+
 import ManagedSettings
 import SwiftUI
+import Foundation
+import FamilyControls
 
-class ManagedSettingsExtension: ManagedSettingsStoreDelegate {
-    static let shared = ManagedSettingsExtension()
+// By creating a Codable wrapper around FamilyActivitySelection, we can save it to UserDefaults.
+struct CodableFamilyActivitySelection: Codable {
+    var applicationTokens: Set<ApplicationToken>
+    var categoryTokens: Set<ActivityCategoryToken>
+    var webDomainTokens: Set<WebDomainToken>
+
+    init(selection: FamilyActivitySelection) {
+        self.applicationTokens = selection.applicationTokens
+        self.categoryTokens = selection.categoryTokens
+        self.webDomainTokens = selection.webDomainTokens
+    }
+
+    func toFamilyActivitySelection() -> FamilyActivitySelection {
+        var selection = FamilyActivitySelection()
+        selection.applicationTokens = self.applicationTokens
+        selection.categoryTokens = self.categoryTokens
+        selection.webDomainTokens = self.webDomainTokens
+        return selection
+    }
+}
+
+struct AppSettings: Codable {
+    var dailyLimitMinutes: Int = 45
+    var challengeType: ChallengeType = .stroop
+    var isFirstLaunch: Bool = true
+    var hasCompletedOnboarding: Bool = false
+    var lastResetDate: Date = Date()
+    var passesUsedToday: Int = 0
+    var lastFailedChallengeDate: Date? = nil
+    var failedAttempts: Int = 0
+    var bypassEndTime: Date? = nil
     
-    private init() {}
+    // Store the Codable wrapper instead of the selection itself.
+    private var codableSelectedApps: CodableFamilyActivitySelection?
     
-    func configuration(for store: ManagedSettingsStore) -> ShieldConfiguration {
-        ShieldConfiguration(
-            backgroundColor: .systemBackground,
-            icon: ShieldIcon(systemName: "shield.fill"),
-            title: ShieldLabel(text: "Daily Limit Reached", color: .label),
-            subtitle: ShieldLabel(text: "Complete a mindful challenge to unlock your apps", color: .secondaryLabel),
-            primaryButtonLabel: ShieldLabel(text: "Open The Antidote", color: .systemBlue),
-            primaryButtonAction: .customAction { _ in
-                // Deep link to the app
-                return URL(string: "antidote://challenge")!
-            }
-        )
+    // Provide a computed property to access the real FamilyActivitySelection.
+    var selectedApps: FamilyActivitySelection {
+        get { codableSelectedApps?.toFamilyActivitySelection() ?? FamilyActivitySelection() }
+        set { codableSelectedApps = CodableFamilyActivitySelection(selection: newValue) }
     }
     
-    func store(_ store: ManagedSettingsStore, didChangeStatus status: ManagedSettingsStore.Status) {
-        switch status {
-        case .active:
-            print("Shield is active")
-        case .inactive:
-            print("Shield is inactive")
-        @unknown default:
-            print("Unknown status: \(status)")
+    static let appGroupIdentifier = "group.app.theantidote.theantidote"
+    
+    init() {}
+    
+    func save() {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(self) {
+            // Try app group first, fallback to standard UserDefaults
+            if let appGroupDefaults = UserDefaults(suiteName: Self.appGroupIdentifier) {
+                appGroupDefaults.set(encoded, forKey: "appSettings")
+            } else {
+                UserDefaults.standard.set(encoded, forKey: "appSettings")
+            }
         }
     }
     
-    func setupShield() {
-        let store = ManagedSettingsStore()
-        store.delegate = self
+    static func load() -> AppSettings {
+        // Try app group first, fallback to standard UserDefaults
+        var data: Data?
         
-        // Load shield configuration from app group
-        if let data = UserDefaults(suiteName: "group.com.yourcompany.antidote")?.data(forKey: "shieldConfiguration") {
+        if let appGroupDefaults = UserDefaults(suiteName: appGroupIdentifier) {
+            data = appGroupDefaults.data(forKey: "appSettings")
+        }
+        
+        if data == nil {
+            data = UserDefaults.standard.data(forKey: "appSettings")
+        }
+        
+        if let data = data {
             let decoder = JSONDecoder()
-            if let config = try? decoder.decode(ShieldConfig.self, from: data) {
-                // Apply shield configuration
-                store.shield.applications = config.applications
-                store.shield.categories = config.categories
-                
-                // Set custom shield configuration
-                store.shield.configuration = configuration(for: store)
+            if let loaded = try? decoder.decode(AppSettings.self, from: data) {
+                return loaded
             }
         }
+        
+        return AppSettings()
     }
 }
 
-struct ShieldConfig: Codable {
-    let applications: Set<ApplicationToken>
-    let categories: Set<ActivityCategoryToken>
+enum ChallengeType: String, CaseIterable, Codable {
+    case stroop = "Stroop Test"
+    case math = "Math Problems"
+    case trivia = "Trivia Questions"
+    case breath = "Breathing Exercise"
 }
 
-// Extension entry point
-class ManagedSettingsExtension: ManagedSettingsStore {
+// By conforming to the ManagedSettingsStoreDelegate protocol, you can customize the shield configuration.
+class ManagedSettingsExtension: ManagedSettingsStoreDelegate {
     override init() {
         super.init()
-        self.delegate = ManagedSettingsExtension.shared
-        ManagedSettingsExtension.shared.setupShield()
     }
-}
-
-// Custom shield configuration
-extension ShieldConfiguration {
-    static func customShield() -> ShieldConfiguration {
-        ShieldConfiguration(
-            backgroundColor: UIColor.systemBackground,
+    
+    // This delegate method is called when the system needs to display the shield.
+    // You can customize the appearance and actions of the shield here.
+    override func configuration(for store: ManagedSettingsStore) -> ShieldConfiguration {
+        
+        // Load the latest settings from your app's shared storage.
+        let settings = AppSettings.load()
+        
+        return ShieldConfiguration(
+            backgroundColor: .systemBackground,
             icon: ShieldIcon(systemName: "brain.fill"),
-            title: ShieldLabel(text: "Mindful Moment", color: UIColor.label),
-            subtitle: ShieldLabel(text: "Complete a challenge to unlock your apps", color: UIColor.secondaryLabel),
-            primaryButtonLabel: ShieldLabel(text: "Take Challenge", color: UIColor.systemBlue),
-            primaryButtonAction: .customAction { _ in
-                return URL(string: "antidote://challenge")!
-            }
+            title: ShieldLabel(text: "Limit Reached", color: .label),
+            subtitle: ShieldLabel(text: "Complete a challenge to continue.", color: .secondaryLabel),
+            primaryButtonLabel: ShieldLabel(text: "Take Challenge"),
+            // The primary button action should deep link back to your app.
+            primaryButtonAction: .url(URL(string: "antidote://challenge")!)
         )
     }
 }

@@ -72,7 +72,7 @@ struct WelcomePageView: View {
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
             
-            Text("Take control of your app usage with mindful challenges")
+            Text("Take control of your app usage with daily time limits")
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -92,7 +92,7 @@ struct FeaturesPageView: View {
             
             VStack(spacing: 24) {
                 FeatureRow(icon: "timer", title: "Daily Limits", description: "Set custom time limits for your apps")
-                FeatureRow(icon: "gamecontroller", title: "Mindful Challenges", description: "Complete challenges to unlock apps")
+                FeatureRow(icon: "shield.fill", title: "App Blocking", description: "Block specific apps when limits are reached")
                 FeatureRow(icon: "lock.shield", title: "Secure Settings", description: "Face ID/PIN protection for settings")
                 FeatureRow(icon: "bell", title: "Smart Notifications", description: "Get warnings before limits are reached")
             }

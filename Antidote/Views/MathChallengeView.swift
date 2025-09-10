@@ -179,6 +179,9 @@ struct MathChallengeView: View {
     }
     
     private func completeChallenge() {
+        // Grant a 15-minute bypass for completing the challenge.
+        BypassManager.shared.grantBypass(for: 15)
+        
         challengeState.completeChallenge()
         StorageManager.shared.saveChallengeState(challengeState)
         dismiss()

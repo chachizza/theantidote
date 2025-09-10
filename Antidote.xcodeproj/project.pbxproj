@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		83A1AB142E67BC7C00CE8AB4 /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A1AB132E67BC7C00CE8AB4 /* DeviceActivity.framework */; };
-		83A1AB1C2E67BC7C00CE8AB4 /* DeviceActivityMonitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 83A1AB112E67BC7C00CE8AB4 /* DeviceActivityMonitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		83A1AB342E67CF4A00CE8AB4 /* DeviceActivityReport.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 83A1AB282E67CF4A00CE8AB4 /* DeviceActivityReport.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		83A1AB402E67CF6F00CE8AB4 /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A1AB3F2E67CF6F00CE8AB4 /* ManagedSettings.framework */; };
 		83A1AB422E67CF6F00CE8AB4 /* ManagedSettingsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A1AB412E67CF6F00CE8AB4 /* ManagedSettingsUI.framework */; };
 		83A1AB4A2E67CF6F00CE8AB4 /* SheildConfig.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 83A1AB3E2E67CF6F00CE8AB4 /* SheildConfig.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		83D9822D2E6FD63100006237 /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A1AB132E67BC7C00CE8AB4 /* DeviceActivity.framework */; };
+		83D982352E6FD63100006237 /* DeviceActivityMonitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 83D9822C2E6FD63100006237 /* DeviceActivityMonitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,13 +30,6 @@
 			remoteGlobalIDString = 83A1AAB42E67ABA400CE8AB4;
 			remoteInfo = Antidote;
 		};
-		83A1AB1A2E67BC7C00CE8AB4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83A1AAAD2E67ABA400CE8AB4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 83A1AB102E67BC7C00CE8AB4;
-			remoteInfo = DeviceActivityMonitor;
-		};
 		83A1AB322E67CF4A00CE8AB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83A1AAAD2E67ABA400CE8AB4 /* Project object */;
@@ -51,6 +44,13 @@
 			remoteGlobalIDString = 83A1AB3D2E67CF6F00CE8AB4;
 			remoteInfo = SheildConfig;
 		};
+		83D982332E6FD63100006237 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83A1AAAD2E67ABA400CE8AB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83D9822B2E6FD63100006237;
+			remoteInfo = DeviceActivityMonitor;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,7 +60,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				83A1AB1C2E67BC7C00CE8AB4 /* DeviceActivityMonitor.appex in Embed Foundation Extensions */,
+				83D982352E6FD63100006237 /* DeviceActivityMonitor.appex in Embed Foundation Extensions */,
 				83A1AB4A2E67CF6F00CE8AB4 /* SheildConfig.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -83,22 +83,16 @@
 		83A1AAB52E67ABA500CE8AB4 /* Antidote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Antidote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83A1AAC22E67ABA600CE8AB4 /* AntidoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AntidoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		83A1AACC2E67ABA600CE8AB4 /* AntidoteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AntidoteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		83A1AB112E67BC7C00CE8AB4 /* DeviceActivityMonitor.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeviceActivityMonitor.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		83A1AB132E67BC7C00CE8AB4 /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
 		83A1AB282E67CF4A00CE8AB4 /* DeviceActivityReport.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = DeviceActivityReport.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		83A1AB3E2E67CF6F00CE8AB4 /* SheildConfig.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SheildConfig.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		83A1AB3F2E67CF6F00CE8AB4 /* ManagedSettings.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettings.framework; path = System/Library/Frameworks/ManagedSettings.framework; sourceTree = SDKROOT; };
 		83A1AB412E67CF6F00CE8AB4 /* ManagedSettingsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettingsUI.framework; path = System/Library/Frameworks/ManagedSettingsUI.framework; sourceTree = SDKROOT; };
+		83D982242E6FD39100006237 /* FamilyControls.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FamilyControls.framework; path = System/Library/Frameworks/FamilyControls.framework; sourceTree = SDKROOT; };
+		83D9822C2E6FD63100006237 /* DeviceActivityMonitor.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeviceActivityMonitor.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		83A1AB1D2E67BC7C00CE8AB4 /* Exceptions for "DeviceActivityMonitor" folder in "DeviceActivityMonitor" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 83A1AB102E67BC7C00CE8AB4 /* DeviceActivityMonitor */;
-		};
 		83A1AB352E67CF4A00CE8AB4 /* Exceptions for "DeviceActivityReport" folder in "DeviceActivityReport" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -112,6 +106,13 @@
 				Info.plist,
 			);
 			target = 83A1AB3D2E67CF6F00CE8AB4 /* SheildConfig */;
+		};
+		83D982362E6FD63100006237 /* Exceptions for "DeviceActivityMonitor" folder in "DeviceActivityMonitor" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 83D9822B2E6FD63100006237 /* DeviceActivityMonitor */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -133,9 +134,6 @@
 		};
 		83A1AB152E67BC7C00CE8AB4 /* DeviceActivityMonitor */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				83A1AB1D2E67BC7C00CE8AB4 /* Exceptions for "DeviceActivityMonitor" folder in "DeviceActivityMonitor" target */,
-			);
 			path = DeviceActivityMonitor;
 			sourceTree = "<group>";
 		};
@@ -153,6 +151,14 @@
 				83A1AB4B2E67CF6F00CE8AB4 /* Exceptions for "SheildConfig" folder in "SheildConfig" target */,
 			);
 			path = SheildConfig;
+			sourceTree = "<group>";
+		};
+		83D9822E2E6FD63100006237 /* DeviceActivityMonitor */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				83D982362E6FD63100006237 /* Exceptions for "DeviceActivityMonitor" folder in "DeviceActivityMonitor" target */,
+			);
+			path = DeviceActivityMonitor;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -179,14 +185,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		83A1AB0E2E67BC7C00CE8AB4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				83A1AB142E67BC7C00CE8AB4 /* DeviceActivity.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		83A1AB252E67CF4A00CE8AB4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -203,6 +201,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		83D982292E6FD63100006237 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				83D9822D2E6FD63100006237 /* DeviceActivity.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -215,6 +221,7 @@
 				83A1AB152E67BC7C00CE8AB4 /* DeviceActivityMonitor */,
 				83A1AB292E67CF4A00CE8AB4 /* DeviceActivityReport */,
 				83A1AB432E67CF6F00CE8AB4 /* SheildConfig */,
+				83D9822E2E6FD63100006237 /* DeviceActivityMonitor */,
 				83A1AB122E67BC7C00CE8AB4 /* Frameworks */,
 				83A1AAB62E67ABA500CE8AB4 /* Products */,
 			);
@@ -226,9 +233,9 @@
 				83A1AAB52E67ABA500CE8AB4 /* Antidote.app */,
 				83A1AAC22E67ABA600CE8AB4 /* AntidoteTests.xctest */,
 				83A1AACC2E67ABA600CE8AB4 /* AntidoteUITests.xctest */,
-				83A1AB112E67BC7C00CE8AB4 /* DeviceActivityMonitor.appex */,
 				83A1AB282E67CF4A00CE8AB4 /* DeviceActivityReport.appex */,
 				83A1AB3E2E67CF6F00CE8AB4 /* SheildConfig.appex */,
+				83D9822C2E6FD63100006237 /* DeviceActivityMonitor.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -236,6 +243,7 @@
 		83A1AB122E67BC7C00CE8AB4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				83D982242E6FD39100006237 /* FamilyControls.framework */,
 				83A1AB132E67BC7C00CE8AB4 /* DeviceActivity.framework */,
 				83A1AB3F2E67CF6F00CE8AB4 /* ManagedSettings.framework */,
 				83A1AB412E67CF6F00CE8AB4 /* ManagedSettingsUI.framework */,
@@ -259,9 +267,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				83A1AB1B2E67BC7C00CE8AB4 /* PBXTargetDependency */,
 				83A1AB332E67CF4A00CE8AB4 /* PBXTargetDependency */,
 				83A1AB492E67CF6F00CE8AB4 /* PBXTargetDependency */,
+				83D982342E6FD63100006237 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				83A1AAB72E67ABA500CE8AB4 /* Antidote */,
@@ -319,28 +327,6 @@
 			productReference = 83A1AACC2E67ABA600CE8AB4 /* AntidoteUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		83A1AB102E67BC7C00CE8AB4 /* DeviceActivityMonitor */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 83A1AB1E2E67BC7C00CE8AB4 /* Build configuration list for PBXNativeTarget "DeviceActivityMonitor" */;
-			buildPhases = (
-				83A1AB0D2E67BC7C00CE8AB4 /* Sources */,
-				83A1AB0E2E67BC7C00CE8AB4 /* Frameworks */,
-				83A1AB0F2E67BC7C00CE8AB4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				83A1AB152E67BC7C00CE8AB4 /* DeviceActivityMonitor */,
-			);
-			name = DeviceActivityMonitor;
-			packageProductDependencies = (
-			);
-			productName = DeviceActivityMonitor;
-			productReference = 83A1AB112E67BC7C00CE8AB4 /* DeviceActivityMonitor.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		83A1AB272E67CF4A00CE8AB4 /* DeviceActivityReport */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 83A1AB362E67CF4A00CE8AB4 /* Build configuration list for PBXNativeTarget "DeviceActivityReport" */;
@@ -385,6 +371,28 @@
 			productReference = 83A1AB3E2E67CF6F00CE8AB4 /* SheildConfig.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		83D9822B2E6FD63100006237 /* DeviceActivityMonitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 83D982372E6FD63100006237 /* Build configuration list for PBXNativeTarget "DeviceActivityMonitor" */;
+			buildPhases = (
+				83D982282E6FD63100006237 /* Sources */,
+				83D982292E6FD63100006237 /* Frameworks */,
+				83D9822A2E6FD63100006237 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				83D9822E2E6FD63100006237 /* DeviceActivityMonitor */,
+			);
+			name = DeviceActivityMonitor;
+			packageProductDependencies = (
+			);
+			productName = DeviceActivityMonitor;
+			productReference = 83D9822C2E6FD63100006237 /* DeviceActivityMonitor.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -406,13 +414,13 @@
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = 83A1AAB42E67ABA400CE8AB4;
 					};
-					83A1AB102E67BC7C00CE8AB4 = {
-						CreatedOnToolsVersion = 16.4;
-					};
 					83A1AB272E67CF4A00CE8AB4 = {
 						CreatedOnToolsVersion = 16.4;
 					};
 					83A1AB3D2E67CF6F00CE8AB4 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					83D9822B2E6FD63100006237 = {
 						CreatedOnToolsVersion = 16.4;
 					};
 				};
@@ -434,9 +442,9 @@
 				83A1AAB42E67ABA400CE8AB4 /* Antidote */,
 				83A1AAC12E67ABA600CE8AB4 /* AntidoteTests */,
 				83A1AACB2E67ABA600CE8AB4 /* AntidoteUITests */,
-				83A1AB102E67BC7C00CE8AB4 /* DeviceActivityMonitor */,
 				83A1AB272E67CF4A00CE8AB4 /* DeviceActivityReport */,
 				83A1AB3D2E67CF6F00CE8AB4 /* SheildConfig */,
+				83D9822B2E6FD63100006237 /* DeviceActivityMonitor */,
 			);
 		};
 /* End PBXProject section */
@@ -463,13 +471,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		83A1AB0F2E67BC7C00CE8AB4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		83A1AB262E67CF4A00CE8AB4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -478,6 +479,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		83A1AB3C2E67CF6F00CE8AB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		83D9822A2E6FD63100006237 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -508,13 +516,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		83A1AB0D2E67BC7C00CE8AB4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		83A1AB242E67CF4A00CE8AB4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -523,6 +524,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		83A1AB3A2E67CF6F00CE8AB4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		83D982282E6FD63100006237 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -542,11 +550,6 @@
 			target = 83A1AAB42E67ABA400CE8AB4 /* Antidote */;
 			targetProxy = 83A1AACD2E67ABA600CE8AB4 /* PBXContainerItemProxy */;
 		};
-		83A1AB1B2E67BC7C00CE8AB4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 83A1AB102E67BC7C00CE8AB4 /* DeviceActivityMonitor */;
-			targetProxy = 83A1AB1A2E67BC7C00CE8AB4 /* PBXContainerItemProxy */;
-		};
 		83A1AB332E67CF4A00CE8AB4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 83A1AB272E67CF4A00CE8AB4 /* DeviceActivityReport */;
@@ -556,6 +559,11 @@
 			isa = PBXTargetDependency;
 			target = 83A1AB3D2E67CF6F00CE8AB4 /* SheildConfig */;
 			targetProxy = 83A1AB482E67CF6F00CE8AB4 /* PBXContainerItemProxy */;
+		};
+		83D982342E6FD63100006237 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 83D9822B2E6FD63100006237 /* DeviceActivityMonitor */;
+			targetProxy = 83D982332E6FD63100006237 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -809,58 +817,6 @@
 			};
 			name = Release;
 		};
-		83A1AB1F2E67BC7C00CE8AB4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitor/DeviceActivityMonitor.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Q4U7Y9GDV8;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DeviceActivityMonitor/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitor;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.theantidote.theantidote.DeviceActivityMonitor;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		83A1AB202E67BC7C00CE8AB4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitor/DeviceActivityMonitor.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Q4U7Y9GDV8;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DeviceActivityMonitor/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitor;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.theantidote.theantidote.DeviceActivityMonitor;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		83A1AB372E67CF4A00CE8AB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -965,6 +921,58 @@
 			};
 			name = Release;
 		};
+		83D982382E6FD63100006237 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitor/DeviceActivityMonitor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4U7Y9GDV8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeviceActivityMonitor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitor;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.theantidote.theantidote.DeviceActivityMonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		83D982392E6FD63100006237 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitor/DeviceActivityMonitor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q4U7Y9GDV8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeviceActivityMonitor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitor;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.theantidote.theantidote.DeviceActivityMonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1004,15 +1012,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83A1AB1E2E67BC7C00CE8AB4 /* Build configuration list for PBXNativeTarget "DeviceActivityMonitor" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				83A1AB1F2E67BC7C00CE8AB4 /* Debug */,
-				83A1AB202E67BC7C00CE8AB4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		83A1AB362E67CF4A00CE8AB4 /* Build configuration list for PBXNativeTarget "DeviceActivityReport" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1027,6 +1026,15 @@
 			buildConfigurations = (
 				83A1AB4D2E67CF6F00CE8AB4 /* Debug */,
 				83A1AB4E2E67CF6F00CE8AB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83D982372E6FD63100006237 /* Build configuration list for PBXNativeTarget "DeviceActivityMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83D982382E6FD63100006237 /* Debug */,
+				83D982392E6FD63100006237 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

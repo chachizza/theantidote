@@ -1,7 +1,6 @@
+
 import Foundation
 import FamilyControls
-import ManagedSettings
-import DeviceActivity
 
 // By creating a Codable wrapper around FamilyActivitySelection, we can save it to UserDefaults.
 struct CodableFamilyActivitySelection: Codable {
@@ -51,43 +50,17 @@ struct AppSettings: Codable {
     func save() {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(self) {
-            // Try app group first, fallback to standard UserDefaults
-            if let appGroupDefaults = UserDefaults(suiteName: Self.appGroupIdentifier) {
-                appGroupDefaults.set(encoded, forKey: "appSettings")
-                print("Settings saved to app group")
-            } else {
-                UserDefaults.standard.set(encoded, forKey: "appSettings")
-                print("Settings saved to standard UserDefaults (fallback)")
-            }
+            UserDefaults(suiteName: Self.appGroupIdentifier)?.set(encoded, forKey: "appSettings")
         }
     }
     
     static func load() -> AppSettings {
-        // Try app group first, fallback to standard UserDefaults
-        var data: Data?
-        
-        if let appGroupDefaults = UserDefaults(suiteName: appGroupIdentifier) {
-            data = appGroupDefaults.data(forKey: "appSettings")
-            if data != nil {
-                print("Settings loaded from app group")
-            }
-        }
-        
-        if data == nil {
-            data = UserDefaults.standard.data(forKey: "appSettings")
-            if data != nil {
-                print("Settings loaded from standard UserDefaults (fallback)")
-            }
-        }
-        
-        if let data = data {
+        if let data = UserDefaults(suiteName: appGroupIdentifier)?.data(forKey: "appSettings") {
             let decoder = JSONDecoder()
             if let loaded = try? decoder.decode(AppSettings.self, from: data) {
                 return loaded
             }
         }
-        
-        print("Creating new AppSettings with defaults")
         return AppSettings()
     }
 }

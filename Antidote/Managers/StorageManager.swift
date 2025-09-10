@@ -6,7 +6,7 @@ class StorageManager {
     
     private init() {}
     
-    private let appGroupIdentifier = "group.com.yourcompany.antidote"
+    private let appGroupIdentifier = "group.app.theantidote.theantidote"
     
     func saveFamilyActivitySelection(_ selection: FamilyActivitySelection) {
         let encoder = JSONEncoder()
