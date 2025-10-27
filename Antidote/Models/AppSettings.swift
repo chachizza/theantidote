@@ -34,6 +34,7 @@ struct AppSettings: Codable {
     var lastFailedChallengeDate: Date? = nil
     var failedAttempts: Int = 0
     var bypassEndTime: Date? = nil
+    var selectionMetadata: [AppSelectionMetadata] = []
     
     // Store the Codable wrapper instead of the selection itself.
     private var codableSelectedApps: CodableFamilyActivitySelection?
@@ -41,7 +42,10 @@ struct AppSettings: Codable {
     // Provide a computed property to access the real FamilyActivitySelection.
     var selectedApps: FamilyActivitySelection {
         get { codableSelectedApps?.toFamilyActivitySelection() ?? FamilyActivitySelection() }
-        set { codableSelectedApps = CodableFamilyActivitySelection(selection: newValue) }
+        set {
+            codableSelectedApps = CodableFamilyActivitySelection(selection: newValue)
+            selectionMetadata = AppSettings.buildMetadata(for: newValue)
+        }
     }
     
     static let appGroupIdentifier = "group.app.theantidote.theantidote"
@@ -89,6 +93,90 @@ struct AppSettings: Codable {
         
         print("Creating new AppSettings with defaults")
         return AppSettings()
+    }
+}
+
+struct AppSelectionMetadata: Codable, Hashable, Identifiable {
+    enum Kind: String, Codable {
+        case app
+        case category
+        case domain
+    }
+    var kind: Kind
+    var id: String
+    var title: String
+    var subtitle: String?
+}
+
+extension AppSettings {
+    static func buildMetadata(for selection: FamilyActivitySelection) -> [AppSelectionMetadata] {
+        var descriptors: [AppSelectionMetadata] = []
+        func makeEntry(kind: AppSelectionMetadata.Kind, title: String, subtitle: String?) {
+            descriptors.append(AppSelectionMetadata(kind: kind, id: UUID().uuidString, title: title, subtitle: subtitle))
+        }
+        
+        for token in selection.applicationTokens {
+            let application = ManagedSettings.Application(token: token)
+            let rawBundle = application.bundleIdentifier
+            let tokenString = applicationTokenString(token)
+            let fallbackName = prettify(bundleIdentifier: rawBundle) ?? extractIdentifier(from: tokenString)
+            let title = application.localizedDisplayName ?? fallbackName
+            let subtitle = rawBundle ?? tokenString
+            makeEntry(kind: .app, title: title, subtitle: subtitle)
+        }
+
+        for category in selection.categories {
+            let title = category.localizedDisplayName ?? "App Category"
+            makeEntry(kind: .category, title: title, subtitle: "Category")
+        }
+
+        for domain in selection.webDomains {
+            if let domainString = domain.domain {
+                makeEntry(kind: .domain, title: domainString, subtitle: "Web domain")
+            }
+        }
+        
+        if descriptors.isEmpty {
+            return []
+        }
+        
+        return descriptors.sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+    }
+    
+    private static func prettify(bundleIdentifier: String?) -> String? {
+        guard let identifier = bundleIdentifier else { return nil }
+        if let short = identifier.split(separator: ".").last {
+            return short.replacingOccurrences(of: "-", with: " ")
+                .replacingOccurrences(of: "_", with: " ")
+                .capitalized
+        }
+        return identifier
+    }
+    
+    private static func extractIdentifier(from debugDescription: String) -> String {
+        if let range = debugDescription.range(of: "bundleIdentifier:") {
+            let substring = debugDescription[range.upperBound...]
+            return substring
+                .trimmingCharacters(in: CharacterSet(charactersIn: " )"))
+                .replacingOccurrences(of: "-", with: " ")
+                .replacingOccurrences(of: "_", with: " ")
+                .capitalized
+        }
+        return "Unknown App"
+    }
+    
+    private static func applicationTokenString(_ token: ApplicationToken?) -> String? {
+        guard let token else { return nil }
+        return String(describing: token)
+    }
+    
+    private static func applicationTokenString(_ token: ApplicationToken) -> String {
+        String(describing: token)
+    }
+    
+    private static func activityCategoryTokenString(_ token: ActivityCategoryToken?) -> String? {
+        guard let token else { return nil }
+        return String(describing: token)
     }
 }
 
