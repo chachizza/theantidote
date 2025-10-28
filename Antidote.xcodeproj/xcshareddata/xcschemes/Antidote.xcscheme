@@ -30,28 +30,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "83A1AAC12E67ABA600CE8AB4"
-               BuildableName = "AntidoteTests.xctest"
-               BlueprintName = "AntidoteTests"
-               ReferencedContainer = "container:Antidote.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "83A1AACB2E67ABA600CE8AB4"
-               BuildableName = "AntidoteUITests.xctest"
-               BlueprintName = "AntidoteUITests"
-               ReferencedContainer = "container:Antidote.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

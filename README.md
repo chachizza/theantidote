@@ -116,14 +116,7 @@ xcodebuild -scheme Antidote -configuration Debug -destination 'platform=iOS Simu
 
 # Build for device
 xcodebuild -scheme Antidote -configuration Release -destination 'generic/platform=iOS'
-
-# Run tests
-xcodebuild test -scheme Antidote -destination 'platform=iOS Simulator,name=iPhone 15'
 ```
-
-### Testing
-- Unit tests: `xcodebuild test -scheme Antidote -only-testing:AntidoteTests`
-- UI tests: `xcodebuild test -scheme Antidote -only-testing:AntidoteUITests`
 
 ## File Structure
 
@@ -163,6 +156,19 @@ Antidote/
 4. **Limit Reached**: Apps blocked with challenge prompt
 5. **Challenge**: Complete mindful challenge for temporary access
 6. **Reset**: Daily limits reset at midnight
+
+## Documentation
+
+- `README.md`: High-level overview, setup, and architecture notes
+- `docs/`: Static site content for product marketing and privacy policy
+
+## Codex Workflow
+
+- Use the Codex CLI for AI-assisted development tasks and code reviews
+- Legacy Gemini-specific documentation has been retired; Codex is now the primary assistant
+- Keep prompts, experiments, and decisions in the repo when they add lasting value
+- Surface any automation or helper scripts through `README.md` so the team can discover them easily
+- Automated test targets were removed; rely on manual smoke runs until new coverage is added
 
 ## TODO Items
 

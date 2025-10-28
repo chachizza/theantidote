@@ -10,268 +10,98 @@ import FamilyControls
 
 struct ContentView: View {
     @StateObject private var authManager = AuthorizationManager.shared
-    @State private var showingOnboarding = false
-    @State private var settings = AppSettings.load()
+    @State private var isRequestingAuthorization = false
     
     var body: some View {
-        Group {
-            if settings.isFirstLaunch {
-                OnboardingView()
-            } else if !authManager.isAuthorized {
-                AuthorizationView()
-            } else {
-                DashboardView()
+        ZStack {
+            RetroTheme.Palette.background
+                .ignoresSafeArea()
+            
+            switch authManager.authorizationStatus {
+            case .approved:
+                HomeView()
+            case .denied:
+                AuthorizationPromptView(
+                    headline: "authorization required",
+                    message: "We need Screen Time permission to lock your selected apps when the timer expires.",
+                    accent: RetroTheme.Palette.locked,
+                    isRequesting: $isRequestingAuthorization,
+                    action: requestAuthorization
+                )
+            default:
+                AuthorizationPromptView(
+                    headline: "power up the antidote",
+                    message: "Grant Screen Time access so the control panel can monitor and lock your chosen apps.",
+                    accent: RetroTheme.Palette.secondaryAccent,
+                    isRequesting: $isRequestingAuthorization,
+                    action: requestAuthorization
+                )
             }
         }
         .onAppear {
-            checkFirstLaunch()
             authManager.checkAuthorizationStatus()
         }
     }
     
-    private func checkFirstLaunch() {
-        if settings.isFirstLaunch {
-            settings.isFirstLaunch = false
-            settings.save()
+    private func requestAuthorization() {
+        Task { @MainActor in
+            isRequestingAuthorization = true
+            await authManager.requestAuthorization()
+            isRequestingAuthorization = false
         }
     }
 }
 
-struct OnboardingView: View {
-    @State private var currentPage = 0
-    @State private var settings = AppSettings.load()
-    
-    var body: some View {
-        TabView(selection: $currentPage) {
-            WelcomePageView()
-                .tag(0)
-            FeaturesPageView()
-                .tag(1)
-            PermissionsPageView()
-                .tag(2)
-            GetStartedPageView()
-                .tag(3)
-        }
-        .tabViewStyle(.page)
-        .indexViewStyle(.page(backgroundDisplayMode: .always))
-    }
-}
-
-struct WelcomePageView: View {
-    var body: some View {
-        VStack(spacing: 32) {
-            Image(systemName: "shield.fill")
-                .font(.system(size: 80))
-                .foregroundColor(.blue)
-            
-            Text("Welcome to The Antidote")
-                .font(.largeTitle.bold())
-            
-            Text("Your digital wellness companion")
-                .font(.title3)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-            
-            Text("Take control of your app usage with daily time limits")
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-            
-            Spacer()
-        }
-        .padding()
-    }
-}
-
-struct FeaturesPageView: View {
-    var body: some View {
-        VStack(spacing: 32) {
-            Text("Key Features")
-                .font(.largeTitle.bold())
-            
-            VStack(spacing: 24) {
-                FeatureRow(icon: "timer", title: "Daily Limits", description: "Set custom time limits for your apps")
-                FeatureRow(icon: "shield.fill", title: "App Blocking", description: "Block specific apps when limits are reached")
-                FeatureRow(icon: "lock.shield", title: "Secure Settings", description: "Face ID/PIN protection for settings")
-                FeatureRow(icon: "bell", title: "Smart Notifications", description: "Get warnings before limits are reached")
-            }
-            
-            Spacer()
-        }
-        .padding()
-    }
-}
-
-struct FeatureRow: View {
-    let icon: String
-    let title: String
-    let description: String
-    
-    var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundColor(.blue)
-                .frame(width: 30)
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.headline)
-                Text(description)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-            }
-            
-            Spacer()
-        }
-    }
-}
-
-struct PermissionsPageView: View {
-    @State private var isRequesting = false
-    @StateObject private var authManager = AuthorizationManager.shared
+private struct AuthorizationPromptView: View {
+    var headline: String
+    var message: String
+    var accent: Color
+    @Binding var isRequesting: Bool
+    var action: () -> Void
     
     var body: some View {
         VStack(spacing: 32) {
-            Image(systemName: "hand.raised.fill")
-                .font(.system(size: 80))
-                .foregroundColor(.orange)
-            
-            Text("Permissions Required")
-                .font(.largeTitle.bold())
-            
-            VStack(spacing: 16) {
-                Text("To help you manage app usage, we need permission to:")
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("• Monitor app usage time")
-                    Text("• Block selected apps when limits are reached")
-                    Text("• Send helpful notifications")
-                }
-                .font(.body)
-                .foregroundColor(.secondary)
-            }
-            .padding(.horizontal)
-            
-            Button(action: {
-                Task {
-                    isRequesting = true
-                    await authManager.requestAuthorization()
-                    isRequesting = false
-                }
-            }) {
-                HStack {
+            Spacer(minLength: 60)
+            VStack(spacing: 22) {
+                Text(headline.uppercased())
+                    .font(RetroTheme.Typography.title(20))
+                    .foregroundColor(accent)
+                    .multilineTextAlignment(.center)
+                Text(message)
+                    .font(RetroTheme.Typography.body(13))
+                    .foregroundColor(RetroTheme.Palette.text.opacity(0.85))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 12)
+                Button {
+                    action()
+                } label: {
                     if isRequesting {
                         ProgressView()
+                            .tint(RetroTheme.Palette.text)
+                    } else {
+                        Text("Grant Permission")
                     }
-                    Text("Grant Permission")
-                        .font(.headline)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-                .background(authManager.isAuthorized ? Color.green : Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(12)
+                .buttonStyle(RetroButtonStyle(kind: .primary, cornerRadius: 30, shadowRadius: 12))
+                .disabled(isRequesting)
             }
-            .disabled(authManager.isAuthorized)
-            .padding(.horizontal)
-            
-            Spacer()
-        }
-        .padding()
-    }
-}
-
-struct GetStartedPageView: View {
-    @State private var settings = AppSettings.load()
-    
-    var body: some View {
-        VStack(spacing: 32) {
-            Image(systemName: "rocket.fill")
-                .font(.system(size: 80))
-                .foregroundColor(.green)
-            
-            Text("You're All Set!")
-                .font(.largeTitle.bold())
-            
-            Text("Let's set up your first daily limit and select the apps you want to manage.")
-                .font(.body)
-                .foregroundColor(.secondary)
+            .padding(28)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 28, style: .continuous)
+                    .fill(RetroTheme.Palette.panel)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 28, style: .continuous)
+                            .stroke(RetroTheme.Palette.panelBorder, lineWidth: 2)
+                    )
+            )
+            Text("Screen Time data stays on device. No accounts. No tracking.")
+                .font(RetroTheme.Typography.body(10))
+                .foregroundColor(RetroTheme.Palette.mutedText)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal)
-            
-            Button(action: {
-                settings.hasCompletedOnboarding = true
-                settings.save()
-            }) {
-                HStack {
-                    Text("Get Started")
-                        .font(.headline)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(12)
-            }
-            .padding(.horizontal)
-            
-            Spacer()
+                .padding(.horizontal, 32)
+            Spacer(minLength: 60)
         }
-        .padding()
+        .padding(.horizontal, 24)
     }
-}
-
-struct AuthorizationView: View {
-    @StateObject private var authManager = AuthorizationManager.shared
-    @State private var isRequesting = false
-    
-    var body: some View {
-        VStack(spacing: 32) {
-            Image(systemName: "exclamationmark.shield")
-                .font(.system(size: 80))
-                .foregroundColor(.red)
-            
-            Text("Authorization Required")
-                .font(.largeTitle.bold())
-            
-            Text("The Antidote needs permission to monitor and manage your app usage. This helps you maintain healthy digital habits.")
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-            
-            Button(action: {
-                Task {
-                    isRequesting = true
-                    await authManager.requestAuthorization()
-                    isRequesting = false
-                }
-            }) {
-                HStack {
-                    if isRequesting {
-                        ProgressView()
-                    }
-                    Text("Grant Permission")
-                        .font(.headline)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(12)
-            }
-            .padding(.horizontal)
-            
-            Spacer()
-        }
-        .padding()
-    }
-}
-
-#Preview {
-    ContentView()
 }
