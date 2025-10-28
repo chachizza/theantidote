@@ -63,6 +63,7 @@ struct AppSettings: Codable {
                 UserDefaults.standard.set(encoded, forKey: "appSettings")
                 print("Settings saved to standard UserDefaults (fallback)")
             }
+            NotificationCenter.default.post(name: .appSettingsDidChange, object: nil)
         }
     }
     
@@ -125,15 +126,16 @@ extension AppSettings {
             makeEntry(kind: .app, title: title, subtitle: subtitle)
         }
 
-        for category in selection.categories {
+        for token in selection.categoryTokens {
+            let category = ManagedSettings.ActivityCategory(token: token)
             let title = category.localizedDisplayName ?? "App Category"
             makeEntry(kind: .category, title: title, subtitle: "Category")
         }
 
-        for domain in selection.webDomains {
-            if let domainString = domain.domain {
-                makeEntry(kind: .domain, title: domainString, subtitle: "Web domain")
-            }
+        for token in selection.webDomainTokens {
+            let domain = ManagedSettings.WebDomain(token: token)
+            let domainString = domain.domain ?? webDomainTokenString(token)
+            makeEntry(kind: .domain, title: domainString, subtitle: "Web domain")
         }
         
         if descriptors.isEmpty {
@@ -165,18 +167,62 @@ extension AppSettings {
         return "Unknown App"
     }
     
-    private static func applicationTokenString(_ token: ApplicationToken?) -> String? {
+    static func applicationTokenString(_ token: ApplicationToken?) -> String? {
         guard let token else { return nil }
         return String(describing: token)
     }
     
-    private static func applicationTokenString(_ token: ApplicationToken) -> String {
+    static func applicationTokenString(_ token: ApplicationToken) -> String {
         String(describing: token)
     }
     
-    private static func activityCategoryTokenString(_ token: ActivityCategoryToken?) -> String? {
+    static func activityCategoryTokenString(_ token: ActivityCategoryToken?) -> String? {
         guard let token else { return nil }
         return String(describing: token)
+    }
+    
+    static func activityCategoryTokenString(_ token: ActivityCategoryToken) -> String {
+        String(describing: token)
+    }
+    
+    static func webDomainTokenString(_ token: WebDomainToken) -> String {
+        String(describing: token)
+    }
+    
+    static func debugDescription(for token: ApplicationToken?) -> String {
+        guard let token else { return "nil" }
+        if let data = try? JSONEncoder().encode(token) {
+            return data.base64EncodedString()
+        }
+        return String(describing: token)
+    }
+    
+    static func debugDescription(for token: ApplicationToken) -> String {
+        debugDescription(for: Optional(token))
+    }
+    
+    static func debugDescription(for token: ActivityCategoryToken?) -> String {
+        guard let token else { return "nil" }
+        if let data = try? JSONEncoder().encode(token) {
+            return data.base64EncodedString()
+        }
+        return String(describing: token)
+    }
+    
+    static func debugDescription(for token: ActivityCategoryToken) -> String {
+        debugDescription(for: Optional(token))
+    }
+    
+    static func debugDescription(for token: WebDomainToken?) -> String {
+        guard let token else { return "nil" }
+        if let data = try? JSONEncoder().encode(token) {
+            return data.base64EncodedString()
+        }
+        return String(describing: token)
+    }
+    
+    static func debugDescription(for token: WebDomainToken) -> String {
+        debugDescription(for: Optional(token))
     }
 }
 

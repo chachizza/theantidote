@@ -1,5 +1,6 @@
 import SwiftUI
 import FamilyControls
+import ManagedSettings
 
 struct FamilyActivityPickerView: View {
     @State private var selection = FamilyActivitySelection()
@@ -90,6 +91,19 @@ struct FamilyActivityPickerView: View {
         } else {
             finalSelection = selection
             print("💾 Family Activity selection saved: \(selection.applicationTokens.count) apps")
+        }
+        
+        print("🔍 Saving selection with \(finalSelection.applicationTokens.count) app tokens, \(finalSelection.categoryTokens.count) categories, \(finalSelection.webDomainTokens.count) domains")
+        finalSelection.applicationTokens.forEach { token in
+            let app = ManagedSettings.Application(token: token)
+            print("   • App token: \(AppSettings.debugDescription(for: token))")
+            print("     ↳ bundle: \(app.bundleIdentifier ?? "nil"), name: \(app.localizedDisplayName ?? "nil")")
+        }
+        finalSelection.categoryTokens.forEach { token in
+            print("   • Category token: \(AppSettings.debugDescription(for: token))")
+        }
+        finalSelection.webDomainTokens.forEach { token in
+            print("   • Domain token: \(AppSettings.debugDescription(for: token))")
         }
         
         var settings = AppSettings.load()

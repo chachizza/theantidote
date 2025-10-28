@@ -55,9 +55,7 @@ struct HomeView: View {
         }
         .preferredColorScheme(.dark)
         .onAppear {
-            loadSettings()
-            timeRemaining = TimeInterval(settings.dailyLimitMinutes * 60)
-            updateAppBadges()
+            synchronizeSettingsFromStorage(resetTimerIfIdle: true)
         }
         .onReceive(timer) { _ in
             guard doseState == .running else { return }
@@ -67,16 +65,17 @@ struct HomeView: View {
             }
             timeRemaining -= 1
         }
+        .onReceive(
+            NotificationCenter.default.publisher(for: .appSettingsDidChange)
+                .receive(on: RunLoop.main)
+        ) { _ in
+            synchronizeSettingsFromStorage(resetTimerIfIdle: true)
+        }
         .sheet(isPresented: $showDoseSetup, onDismiss: {
-            loadSettings()
-            updateAppBadges()
-            if doseState != .running {
-                timeRemaining = TimeInterval(settings.dailyLimitMinutes * 60)
-            }
+            synchronizeSettingsFromStorage(resetTimerIfIdle: true)
         }) {
             DoseSetupView(settings: $settings) {
-                loadSettings()
-                updateAppBadges()
+                synchronizeSettingsFromStorage(resetTimerIfIdle: true)
             }
             .preferredColorScheme(.dark)
         }
@@ -360,6 +359,14 @@ private extension HomeView {
         return String(format: "%02dh %02dm", hours, minutes)
     }
     
+    func synchronizeSettingsFromStorage(resetTimerIfIdle: Bool = false) {
+        loadSettings()
+        updateAppBadges()
+        if resetTimerIfIdle && doseState != .running {
+            timeRemaining = TimeInterval(settings.dailyLimitMinutes * 60)
+        }
+    }
+    
     func loadSettings() {
         settings = AppSettings.load()
     }
@@ -371,6 +378,14 @@ private extension HomeView {
             settings.selectionMetadata = metadata
             settings.save()
             appMetadata = HomeView.displayItems(for: settings)
+        }
+        let tokens = settings.selectedApps.applicationTokens
+        print("🔎 HomeView badges refreshed with \(tokens.count) app tokens")
+        tokens.forEach { token in
+            let app = ManagedSettings.Application(token: token)
+            let descriptor = AppSettings.debugDescription(for: token)
+            print("   • token: \(descriptor)")
+            print("     ↳ bundle: \(app.bundleIdentifier ?? "nil"), name: \(app.localizedDisplayName ?? "nil")")
         }
     }
     
@@ -483,31 +498,36 @@ extension HomeView {
             return bundle
         }
         
-        func tokenDescription(_ token: Any) -> String {
-            String(describing: token)
-        }
-        
         var items: [AppDisplayItem] = []
+        var seenAppTokenIDs = Set<String>()
         for token in selection.applicationTokens {
+            let tokenID = AppSettings.debugDescription(for: token)
+            guard seenAppTokenIDs.insert(tokenID).inserted else { continue }
             let app = ManagedSettings.Application(token: token)
             let bundle = app.bundleIdentifier
-            let fallback = prettify(bundle) ?? tokenDescription(token)
+            let fallback = prettify(bundle) ?? tokenID
             let name = app.localizedDisplayName ?? fallback
-            let identifier = uniqueID(from: bundle ?? tokenDescription(token))
+            let identifier = uniqueID(from: bundle ?? tokenID)
             items.append(AppDisplayItem(kind: .app, id: identifier, title: name, subtitle: bundle, applicationToken: token, categoryToken: nil, webDomainToken: nil))
         }
         
+        var seenCategoryIDs = Set<String>()
         for token in selection.categoryTokens {
+            let tokenID = AppSettings.debugDescription(for: token)
+            guard seenCategoryIDs.insert(tokenID).inserted else { continue }
             let category = ManagedSettings.ActivityCategory(token: token)
             let name = category.localizedDisplayName ?? "App Category"
-            let identifier = uniqueID(from: tokenDescription(token))
+            let identifier = uniqueID(from: tokenID)
             items.append(AppDisplayItem(kind: .category, id: identifier, title: name, subtitle: "Category", applicationToken: nil, categoryToken: token, webDomainToken: nil))
         }
         
+        var seenDomainIDs = Set<String>()
         for token in selection.webDomainTokens {
+            let tokenID = AppSettings.debugDescription(for: token)
+            guard seenDomainIDs.insert(tokenID).inserted else { continue }
             let domain = ManagedSettings.WebDomain(token: token)
             let name = domain.domain ?? "Web Domain"
-            let identifier = uniqueID(from: tokenDescription(token))
+            let identifier = uniqueID(from: tokenID)
             items.append(AppDisplayItem(kind: .domain, id: identifier, title: name, subtitle: "Web domain", applicationToken: nil, categoryToken: nil, webDomainToken: token))
         }
         

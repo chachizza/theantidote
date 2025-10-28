@@ -99,6 +99,7 @@ struct DoseSetupView: View {
     }
     
     private func dismissView() {
+        settings.save()
         onDismiss?()
         dismiss()
     }
